@@ -13,15 +13,21 @@ use Symfony\Component\Console\Question\Question;
 class Command extends BaseCommand
 {
     /**
+     * 命令名称
+     * @var string
+     */
+    const COMMAND_NAME = 'thumbnail';
+    
+    /**
      * @var ProgressBar
      */
     protected $progressBar;
 
     function configure()
     {
-        $this->setName('thumbnail');
+        $this->setName(static::COMMAND_NAME);
         $this->addOption('src', 's', InputOption::VALUE_OPTIONAL, 'The source image directory', getcwd() . '/src');
-        $this->addOption('dst', 'd', InputOption::VALUE_OPTIONAL, 'The destination directory save new images', getcwd());
+        $this->addOption('dst', 'd', InputOption::VALUE_OPTIONAL, 'The destination directory to save new images', getcwd());
     }
 
     /**
@@ -60,11 +66,11 @@ class Command extends BaseCommand
             return $answer;
         };
         //询问宽度
-        $question = new Question("Image width you want: ");
+        $question = new Question("Image width you want: ", 50);
         $question->setValidator($validator);
         $width = $questionHelper->ask($input, $output, $question);
         //询问高度
-        $question = new Question("Image height you want: ");
+        $question = new Question("Image height you want: ", 50);
         $question->setValidator($validator);
         $height = $questionHelper->ask($input, $output, $question);
         return [$width, $height];
@@ -92,6 +98,8 @@ class Command extends BaseCommand
 
         $magicHand->getDispatcher()->bind(MagicHand::EVENT_END, function (Event $event) use ($output){
             $this->progressBar->finish();
+            $output->writeln(PHP_EOL);
+            $output->writeln("Work ok");
         });
     }
 }

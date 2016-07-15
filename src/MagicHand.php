@@ -91,8 +91,8 @@ class MagicHand
         $this->thumbBox = new Box($size[0], $size[1]);
         $this->thumbMode = $mode;
         //生成文件目录
-        $savePath = $dst . $this->thumbBox->getWidth() . 'x' . $this->thumbBox->getHeight();
-        $this->filesystem->mkdir($savePath);
+        $this->savePath = $dst . '/' . $this->thumbBox->getWidth() . 'x' . $this->thumbBox->getHeight();
+        $this->filesystem->mkdir($this->savePath);
     }
 
     function run()
@@ -103,7 +103,7 @@ class MagicHand
         ]));
         $successFiles = [];
         foreach ($files as $file) {
-            $image = $this->imagine->open($file->getPath());
+            $image = $this->imagine->open($file->getRealPath());
             $image = $this->process($image);
             if ($image->save($this->getImageSavePath($file))) {
                 $successFiles[] = $file;
@@ -130,7 +130,7 @@ class MagicHand
      */
     protected function getImageSavePath(SplFileInfo $fileInfo)
     {
-        return $this->savePath . $fileInfo->getBasename(true);
+        return $this->savePath . '/' . $fileInfo->getBasename(true);
     }
 
     /**
