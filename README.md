@@ -2,6 +2,13 @@
 
 基于php实现的图形处理工具
 
+[![Build Status](https://travis-ci.org/slince/magic-hand.svg?branch=master)](https://travis-ci.org/slince/magic-hand)
+[![Latest Stable Version](https://poser.pugx.org/slince/magic-hand/v/stable)](https://packagist.org/packages/slince/magic-hand)
+[![Total Downloads](https://poser.pugx.org/slince/magic-hand/downloads)](https://packagist.org/packages/slince/magic-hand)
+[![Latest Unstable Version](https://poser.pugx.org/slince/magic-hand/v/unstable)](https://packagist.org/packages/slince/magic-hand)
+[![License](https://poser.pugx.org/slince/magic-hand/license)](https://packagist.org/packages/slince/magic-hand)
+
+
 # 安装
 ```
 composer global require slince/magic-hand *@dev

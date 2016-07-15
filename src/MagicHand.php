@@ -1,4 +1,8 @@
 <?php
+/**
+ * slince magic hand library
+ * @author Tao <taosikai@yeah.net>
+ */
 namespace Slince\MagicHand;
 
 use Imagine\Gd\Image;
@@ -121,6 +125,38 @@ class MagicHand
     public function getDispatcher()
     {
         return $this->dispatcher;
+    }
+
+    /**
+     * @return Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
+    }
+
+    /**
+     * @return Finder
+     */
+    public function getFinder()
+    {
+        return $this->finder;
+    }
+
+    /**
+     * @return array|Box
+     */
+    public function getThumbBox()
+    {
+        return $this->thumbBox;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getThumbMode()
+    {
+        return $this->thumbMode;
     }
 
     /**

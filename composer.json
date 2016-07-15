@@ -14,6 +14,11 @@
             "Slince\\MagicHand\\": "./src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Slince\\MagicHand\\Tests\\": "./tests"
+        }
+    },
     "require": {
         "php": ">=5.5.9",
         "slince/event": "~1.0",
@@ -21,6 +26,9 @@
         "symfony/console": "~3.0",
         "imagine/imagine": "^0.6.3",
         "symfony/finder": "^3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
     },
     "bin": [
         "magichand"

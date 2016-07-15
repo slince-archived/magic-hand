@@ -1,4 +1,8 @@
 <?php
+/**
+ * slince magic hand library
+ * @author Tao <taosikai@yeah.net>
+ */
 namespace Slince\MagicHand;
 
 use Slince\Event\Event;
