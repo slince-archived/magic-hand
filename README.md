@@ -13,6 +13,7 @@ composer global require slince/magic-hand *@dev
 
 支持的参数：
  --src [-s] 图片源文件夹路径，默认是工作目录下的src
+
  --dst [-d] 保存新生成图片的路径，默认是工作目录下的dst
 
  注：参数都是可选的
@@ -22,10 +23,10 @@ composer global require slince/magic-hand *@dev
 magichand thumbnail -s 图片路径 -d 保存路径
 
 ```
-如果需要帮助，可执行
+如果需要帮助，可执行下面命令查看
 ```
 magichand thumbnail --help
 ```
-查看
+
 
 
