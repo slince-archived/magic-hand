@@ -16,7 +16,7 @@ class CommandUI
     static function createCommands()
     {
         return [
-            new Command(),
+            new ThumbnailCommand(),
         ];
     }
 
@@ -28,7 +28,7 @@ class CommandUI
     {
         $application = new Application();
         $application->addCommands(self::createCommands());
-        $application->setDefaultCommand(Command::COMMAND_NAME);
+        $application->setDefaultCommand(ThumbnailCommand::COMMAND_NAME);
         $application->run();
     }
 }

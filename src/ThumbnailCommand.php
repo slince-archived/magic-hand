@@ -5,7 +5,9 @@
  */
 namespace Slince\MagicHand;
 
+use Imagine\Image\ImageInterface;
 use Slince\Event\Event;
+use Slince\MagicHand\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -14,14 +16,23 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class Command extends BaseCommand
+class ThumbnailCommand extends BaseCommand
 {
     /**
      * 命令名称
      * @var string
      */
     const COMMAND_NAME = 'thumbnail';
-    
+
+    /**
+     * 缩略模式映射
+     * @var array
+     */
+    static $modeMap = [
+        'inset' => ImageInterface::THUMBNAIL_INSET,
+        'outbound' => ImageInterface::THUMBNAIL_OUTBOUND
+    ];
+
     /**
      * @var ProgressBar
      */
@@ -30,8 +41,9 @@ class Command extends BaseCommand
     function configure()
     {
         $this->setName(static::COMMAND_NAME);
-        $this->addOption('src', 's', InputOption::VALUE_OPTIONAL, 'The source image directory', getcwd() . '/src');
-        $this->addOption('dst', 'd', InputOption::VALUE_OPTIONAL, 'The destination directory to save new images', getcwd());
+        $this->addOption('src', 's', InputOption::VALUE_OPTIONAL, 'Source image directory', getcwd() . '/src');
+        $this->addOption('dst', 'd', InputOption::VALUE_OPTIONAL, 'Destination directory to save new images', getcwd());
+        $this->addOption('mode', 'm', InputOption::VALUE_OPTIONAL, 'Thumbnail mode, available [' . implode(',', static::$modeMap) . ']');
     }
 
     /**
@@ -44,14 +56,36 @@ class Command extends BaseCommand
     {
         $src = $input->getOption('src');
         $dst = $input->getOption('dst');
+        $mode = $input->getOption('mode');
+        //初始化
+        $magicHand = new MagicHand($src, $dst);
+        if (!empty($mode)) {
+            $magicHand->setThumbMode($this->transformMode($mode));
+        }
+        //设置缩略size
         $questionHelper = new QuestionHelper();
         $size = $this->getSizeFromQuestion($questionHelper, $input, $output);
-        $magicHand = new MagicHand($src, $dst, $size);
+        $magicHand->setThumbBox($size);
+        //绑定ui事件
         $this->bindEventsForUi($magicHand, $output);
+        //运行
         $magicHand->run();
         return true;
     }
 
+    /**
+     * 转换输入模式
+     * @param $mode
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    protected function transformMode($mode)
+    {
+        if (!isset(static::$modeMap[$mode])) {
+            throw new InvalidArgumentException(sprintf("Mode [%s] is not supported", $mode));
+        }
+        return static::$modeMap[$mode];
+    }
     /**
      * 询问得到高度和宽度
      * @param QuestionHelper $questionHelper

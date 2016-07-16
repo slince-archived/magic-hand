@@ -49,7 +49,7 @@ class MagicHand
      * 缩略模式
      * @var string
      */
-    protected $thumbMode;
+    protected $thumbMode = ImageInterface::THUMBNAIL_INSET;
 
     /**
      * 图片源路径
@@ -84,7 +84,7 @@ class MagicHand
      */
     protected $savePath;
 
-    function __construct($src, $dst, array $size, $mode = ImageInterface::THUMBNAIL_INSET)
+    function __construct($src, $dst)
     {
         $this->src = $src;
         $this->dst = $dst;
@@ -92,11 +92,6 @@ class MagicHand
         $this->filesystem = new Filesystem();
         $this->finder = new Finder();
         $this->dispatcher = new Dispatcher();
-        $this->thumbBox = new Box($size[0], $size[1]);
-        $this->thumbMode = $mode;
-        //生成文件目录
-        $this->savePath = $dst . '/' . $this->thumbBox->getWidth() . 'x' . $this->thumbBox->getHeight();
-        $this->filesystem->mkdir($this->savePath);
     }
 
     function run()
@@ -144,13 +139,35 @@ class MagicHand
     }
 
     /**
+     * 设置缩略大小
+     * @param array $size
+     */
+    function setThumbBox(array $size)
+    {
+        $this->thumbBox = new Box($size[0], $size[1]);
+        //生成文件目录
+        $this->savePath = $this->dst . '/' . $this->thumbBox->getWidth() . ' x ' . $this->thumbBox->getHeight();
+        $this->filesystem->mkdir($this->savePath);
+    }
+
+    /**
      * @return array|Box
      */
     public function getThumbBox()
     {
         return $this->thumbBox;
     }
-    
+
+    /**
+     * 设置缩略模式
+     * ImageInterface::THUMBNAIL_INSET 自适应宽比
+     * ImageInterface::THUMBNAIL_OUTBOUND 固定宽比
+     * @param $thumbMode
+     */
+    public function setThumbMode($thumbMode)
+    {
+        $this->thumbMode = $thumbMode;
+    }
     /**
      * @return string
      */
