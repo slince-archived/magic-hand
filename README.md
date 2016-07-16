@@ -22,9 +22,9 @@ composer global require slince/magic-hand *@dev
 
  --src [-s] 图片源文件夹路径，默认是工作目录下的src
 
- --dst [-d] 保存新生成图片的路径，默认是工作目录下的dst
+ --dst [-d] 保存新生成图片的路径，默认是工作目录
  
- --mode [-m] 缩略图模式[inset, outbound], inset模式为保证缩略图像内容的完整不会严格按照给定尺寸裁剪，outbound会先进行缩放，再按照尺寸裁剪
+ --mode [-m] 缩略图模式[inset, outbound], inset模式为保证缩略图像内容的完整不会严格按照给定尺寸裁剪，outbound会先进行缩放，再按照尺寸裁剪，
  所以可以保证尺寸的准确，但图像内容可能会有所损失；默认是inset模式
 
  注：参数都是可选的
